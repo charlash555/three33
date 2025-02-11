@@ -1,6 +1,6 @@
 - hosts: node
   remote_user: azureuser
-  become: yes
+  become: true
   tasks:
     - name: create new deployment
       command: kubectl apply -f /home/azureuser/Deployment.yaml
