@@ -1,19 +1,14 @@
-FROM ubuntu:latest
+# Use an official OpenJDK runtime as base image
+FROM openjdk:17-jdk-slim
 
-MAINTAINER charlash555@gmail.com
+# Set working directory
+WORKDIR /app
 
-RUN apt-get update && apt-get install -y apache2 \
-    zip \
-    unzip \
-    wget
+# Copy JAR file from build context
+COPY target/myapp.jar app.jar
 
-WORKDIR /var/www/html/
+# Expose the application port
+EXPOSE 8080
 
-RUN wget -O photogenic.zip https://www.free-css.com/assets/files/free-css-templates/download/page254/photogenic.zip
-RUN unzip photogenic.zip
-RUN cp -rvf photogenic/* .
-RUN rm -rf photogenic photogenic.zip
-
-CMD ["apachectl", "-D", "FOREGROUND"]
-
-EXPOSE 80 22
+# Run the application
+CMD ["java", "-jar", "app.jar"]
